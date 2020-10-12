@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.U2D;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -8,7 +8,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject jump_animation;
     public int speedH;
     public int speedV;
-    bool isJump = false;
+    bool isGround = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,8 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         float dH = Input.GetAxis("Horizontal");
-        float dV = Input.GetAxis("Vertical");
+        //float dV = Input.GetAxis("Vertical");
+        bool dV = Input.GetKeyDown(KeyCode.UpArrow);
 
         /*
         if(dV != 0 && isJump == false)
@@ -28,14 +30,12 @@ public class PlayerScript : MonoBehaviour
             //Destroy(gameObject);
         }
         */
-        if (dV > 0 && isJump == false)
+        if (dV && isGround == true)
         {
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, speedV));
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, speedV );
-            isJump = true;
-            Debug.Log("Jump");
+                GetComponent<Rigidbody2D>().velocity = new Vector2(0, speedV);
+                isGround = false;
         }
-        if(dH != 0 && isJump == false)
+        if(dH != 0 && isGround == true)
         {
             GetComponent<Rigidbody2D>().velocity = new Vector2(dH * speedH, 0);
         }
@@ -46,22 +46,22 @@ public class PlayerScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Fish") || collision.gameObject.CompareTag("Land"))
         {
+            Debug.Log(collision.gameObject.name);
             collision.isTrigger = false;
-
+            Debug.Log("NOT TRIGGER");
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
         if (collision.gameObject.CompareTag("Land"))
         {
-            isJump = false;
+            isGround = true;
         }
         if (collision.gameObject.CompareTag("Fish")) {
             transform.parent = collision.transform;
-            isJump = false;
-        }
+            isGround = true;
+         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -69,6 +69,15 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Fish"))
         {
             transform.parent = null;
+            isGround = false;
+            collision.gameObject.GetComponent<Collider2D>().isTrigger = true;
+            Debug.Log("Fish TRIGGER");
+        }
+        if (collision.gameObject.CompareTag("Land"))
+        {
+            isGround = false;
+            collision.gameObject.GetComponent<Collider2D>().isTrigger = true;
+            Debug.Log("Land TRIGGER");
         }
     }
 }
