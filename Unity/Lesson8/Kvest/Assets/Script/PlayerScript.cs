@@ -44,12 +44,17 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Fish") || collision.gameObject.CompareTag("Land"))
+        if (collision.gameObject.CompareTag("Fish") || collision.gameObject.CompareTag("Stone"))
         {
             Debug.Log(collision.gameObject.name);
             collision.isTrigger = false;
-            Debug.Log("NOT TRIGGER");
         }
+        if (collision.gameObject.CompareTag("LandEnd"))
+        {
+            Debug.Log(collision.gameObject.name);
+            collision.isTrigger = false;
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -57,11 +62,29 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Land"))
         {
             isGround = true;
+            GameObject.Find("fish_green").GetComponent<Collider2D>().isTrigger = true;
+            GameObject.Find("fish_red").GetComponent<Collider2D>().isTrigger = true;
+            GameObject.Find("stoun_01").GetComponent<Collider2D>().isTrigger = true;
+            GameObject.Find("land_top").GetComponent<Collider2D>().isTrigger = true;
+        }
+
+        if (collision.gameObject.CompareTag("Stone"))
+        {
+            isGround = true;
+            GameObject.Find("fish_green").GetComponent<Collider2D>().isTrigger = true;
+            GameObject.Find("fish_red").GetComponent<Collider2D>().isTrigger = true;
+            GameObject.Find("land_top").GetComponent<Collider2D>().isTrigger = true;
+        }
+        if (collision.gameObject.CompareTag("LandEnd"))
+        {
+            isGround = true;
         }
         if (collision.gameObject.CompareTag("Fish")) {
             transform.parent = collision.transform;
             isGround = true;
-         }
+            GameObject.Find("land_top").GetComponent<Collider2D>().isTrigger = true;
+            GameObject.Find("stoun_01").GetComponent<Collider2D>().isTrigger = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -71,13 +94,11 @@ public class PlayerScript : MonoBehaviour
             transform.parent = null;
             isGround = false;
             collision.gameObject.GetComponent<Collider2D>().isTrigger = true;
-            Debug.Log("Fish TRIGGER");
         }
-        if (collision.gameObject.CompareTag("Land"))
+        if (collision.gameObject.CompareTag("Stone") || collision.gameObject.CompareTag("LandEnd"))
         {
             isGround = false;
             collision.gameObject.GetComponent<Collider2D>().isTrigger = true;
-            Debug.Log("Land TRIGGER");
         }
     }
 }
