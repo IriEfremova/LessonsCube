@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public GameObject jump_animation;
+    public GameObject hero_lose;
     public int speedH;
     public int speedV;
     bool isGround = true;
+    public Sprite lose;
 
     // Start is called before the first frame update
     void Start()
     {
     }
 
+    // Update is called once per frame
     // Update is called once per frame
     void Update()
     {
@@ -32,10 +34,10 @@ public class PlayerScript : MonoBehaviour
         */
         if (dV && isGround == true)
         {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, speedV);
-                isGround = false;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, speedV);
+            isGround = false;
         }
-        if(dH != 0 && isGround == true)
+        if (dH != 0 && isGround == true)
         {
             GetComponent<Rigidbody2D>().velocity = new Vector2(dH * speedH, 0);
         }
@@ -54,7 +56,13 @@ public class PlayerScript : MonoBehaviour
             Debug.Log(collision.gameObject.name);
             collision.isTrigger = false;
         }
-        
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            //Sprite sp = new Sprite("");
+            //sprites = Resources.LoadAll<Sprite>(spriteNames);
+            Debug.Log("WATER");
+            GetComponent<SpriteRenderer>().sprite = lose;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -79,7 +87,8 @@ public class PlayerScript : MonoBehaviour
         {
             isGround = true;
         }
-        if (collision.gameObject.CompareTag("Fish")) {
+        if (collision.gameObject.CompareTag("Fish"))
+        {
             transform.parent = collision.transform;
             isGround = true;
             GameObject.Find("land_top").GetComponent<Collider2D>().isTrigger = true;
@@ -102,3 +111,4 @@ public class PlayerScript : MonoBehaviour
         }
     }
 }
+
