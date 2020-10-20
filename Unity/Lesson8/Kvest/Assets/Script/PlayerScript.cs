@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public GameObject hero_lose;
+    public GameObject splash;
     public int speedH;
     public int speedV;
     bool isGround = true;
@@ -60,8 +60,11 @@ public class PlayerScript : MonoBehaviour
         {
             //Sprite sp = new Sprite("");
             //sprites = Resources.LoadAll<Sprite>(spriteNames);
-            Debug.Log("WATER");
+            Debug.Log("WATER" + GetComponent<SpriteRenderer>().sortingOrder);
+            Instantiate(splash, transform.position, transform.rotation);
             GetComponent<SpriteRenderer>().sprite = lose;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, -3);
+            
         }
     }
 
