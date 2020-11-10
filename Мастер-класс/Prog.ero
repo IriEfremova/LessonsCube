@@ -1,0 +1,62 @@
+
+#include "functions_codes.h"
+
+
+int main ()
+{
+    int array[] = {1,0,1,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0};
+    int num = 0;
+    mcu_initialization();
+    while(1)
+    {
+        if(rc(UP_KEY)==TRUE)
+        {
+            dc_motor(LEFT_MOTOR_1,FORWARD_DIRECTION,3);
+            dc_motor(RIGHT_MOTOR_1,BACKWARD_DIRECTION,3);
+        }
+        if(rc(DOWN_KEY)==TRUE)
+        {
+            dc_motor(LEFT_MOTOR_1,BACKWARD_DIRECTION,-3);
+            dc_motor(RIGHT_MOTOR_1,FORWARD_DIRECTION,-3);
+        }
+        if(rc(RIGHT_KEY)==TRUE)
+        {
+            dc_motor(LEFT_MOTOR_1,FORWARD_DIRECTION,5);
+            dc_motor(RIGHT_MOTOR_1,FORWARD_DIRECTION,2);
+        }
+        if(rc(LEFT_KEY)==TRUE)
+        {
+            dc_motor(LEFT_MOTOR_1,FORWARD_DIRECTION,2);
+            dc_motor(RIGHT_MOTOR_1,BACKWARD_DIRECTION,5);
+        }
+        if(rc(OFF_KEY)==TRUE)
+        {
+            dc_motor(LEFT_MOTOR_1,STOP_DIRECTION,0);
+            dc_motor(RIGHT_MOTOR_1,STOP_DIRECTION,0);
+        }
+        
+        if(mic(1)==TRUE)
+        {
+            for(int i = 0; i < 5; i++){
+                digitalWrite(1, HIGH);
+                digitalWrite(2, LOW);
+                delay(0,0,0,400);
+                digitalWrite(2, HIGH);
+                digitalWrite(1, LOW);
+                delay(0,0,0,400); 
+            }
+            
+            tone(3, 800,1000);
+            if(array[num] == 0){
+                digitalWrite(1, HIGH);
+                digitalWrite(2, LOW);
+            }
+            else{
+                digitalWrite(2, HIGH);
+                digitalWrite(1, LOW);
+            }
+            num++;
+        }
+    }
+    return 0;
+}
