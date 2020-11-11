@@ -12,12 +12,12 @@ int main ()
         if(rc(UP_KEY)==TRUE)
         {
             dc_motor(LEFT_MOTOR_1,FORWARD_DIRECTION,3);
-            dc_motor(RIGHT_MOTOR_1,BACKWARD_DIRECTION,3);
+            dc_motor(RIGHT_MOTOR_1,FORWARD_DIRECTION,3);
         }
         if(rc(DOWN_KEY)==TRUE)
         {
-            dc_motor(LEFT_MOTOR_1,BACKWARD_DIRECTION,-3);
-            dc_motor(RIGHT_MOTOR_1,FORWARD_DIRECTION,-3);
+            dc_motor(LEFT_MOTOR_1,BACKWARD_DIRECTION,2);
+            dc_motor(RIGHT_MOTOR_1,BACKWARD_DIRECTION,2);
         }
         if(rc(RIGHT_KEY)==TRUE)
         {
@@ -27,16 +27,19 @@ int main ()
         if(rc(LEFT_KEY)==TRUE)
         {
             dc_motor(LEFT_MOTOR_1,FORWARD_DIRECTION,2);
-            dc_motor(RIGHT_MOTOR_1,BACKWARD_DIRECTION,5);
+            dc_motor(RIGHT_MOTOR_1,FORWARD_DIRECTION,5);
         }
-        if(rc(OFF_KEY)==TRUE)
+        if(rc(OFF_KEY)== TRUE)
         {
             dc_motor(LEFT_MOTOR_1,STOP_DIRECTION,0);
             dc_motor(RIGHT_MOTOR_1,STOP_DIRECTION,0);
         }
         
-        if(mic(1)==TRUE)
+        if(rc(F1_KEY)== TRUE && mic(1)== TRUE)
         {
+            delay(0,0,1,0);
+            tone(3, 800,1000);
+            delay(0,0,1,0);
             for(int i = 0; i < 5; i++){
                 digitalWrite(1, HIGH);
                 digitalWrite(2, LOW);
@@ -46,7 +49,6 @@ int main ()
                 delay(0,0,0,400); 
             }
             
-            tone(3, 800,1000);
             if(array[num] == 0){
                 digitalWrite(1, HIGH);
                 digitalWrite(2, LOW);
