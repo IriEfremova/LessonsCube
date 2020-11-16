@@ -15,8 +15,9 @@ public class Player_Script : MonoBehaviour
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
-        GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * speed, 0);
+       // GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * speed, 0);
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        /*
        // rb.MovePosition(rb.position + Vector2.right * moveX * speed); 
 
         if ((moveX > 0f && !isRightSide) || (moveX < 0f && isRightSide))
@@ -32,13 +33,17 @@ public class Player_Script : MonoBehaviour
             GetComponent<Animator>().SetBool("isWalk", true);
         else
             GetComponent<Animator>().SetBool("isWalk", false);
-
+        */
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             //прикладываем силу вверх, чтобы персонаж подпрыгнул
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 5300));
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 70);
+            //GetComponent<Rigidbody2D>().AddForce(new Vector2(1000, 0));
+            GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * speed,40);
             isGrounded = false;
+        }
+        if (isGrounded && moveX !=0)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * speed, 0);
         }
  
     }

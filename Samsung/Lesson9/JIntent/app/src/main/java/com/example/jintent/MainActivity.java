@@ -4,9 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     int REQEST_LOGIN = 101;
@@ -18,8 +20,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, REQEST_LOGIN);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com"));
+        if (intent.resolveActivity(getPackageManager())!=null)
+            startActivity(intent);
+        else
+            Toast.makeText(getApplicationContext(), "Intent (ACTION_VIEW) не обработан!", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
